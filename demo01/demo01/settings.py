@@ -51,6 +51,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# 确定项目URL
 ROOT_URLCONF = 'demo01.urls'
 
 TEMPLATES = [
