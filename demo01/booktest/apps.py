@@ -6,5 +6,5 @@ class BooktestConfig(AppConfig):
 
 
 """
-应用配置文件
+应用的配置文件
 """

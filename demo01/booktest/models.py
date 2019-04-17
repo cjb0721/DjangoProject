@@ -21,6 +21,18 @@ class Hero(models.Model):
     def __str__(self):
         return self.name
 
+    def hname(self):
+        return self.name
+    hname.short_description = "姓名"
+
+    def hsex(self):
+        return self.gender
+    hsex.short_description = "性别"
+
+    def hcontent(self):
+        return self.content
+    hcontent.short_description = "绝招"
+
 
 """
 Django框架MVT模式中M
