@@ -19,11 +19,23 @@ from django.conf.urls import url, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    url('booktest/', include('booktest.urls'))
+    url('booktest/', include('booktest.urls', namespace='booktest'))
 ]
 
 """
 项目URL
 urlpatterns 列表将路由与视图绑定在一起
 """
+
+"""
+去除硬编码
+
+1、在应用urls.py添加app_name
+2、在项目urls配置文件中 在include中添加命名空间
+3、在应用配置文件中给url设置名字
+4、在HTML中取出硬编码 {% url '命名空间:url名字' 参数 %}
+
+"""
+
+
 

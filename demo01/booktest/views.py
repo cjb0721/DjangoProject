@@ -9,26 +9,32 @@ from django.template import loader
 def index(request):
     print("请求", request)
     # return HttpResponse("首页")
-    # 1、加载模板
-    indexpage = loader.get_template('booktest/index.html')
-    body = {"username": "ggb"}
-    # 2、使用变量渲染模板
-    result = indexpage.render(body)
-    # 3、返回模板
-    return HttpResponse(result)
+    # # 1、加载模板
+    # indexpage = loader.get_template('booktest/index.html')
+    # body = {"username": "ggb"}
+    # # 2、使用变量渲染模板
+    # result = indexpage.render(body)
+    # # 3、返回模板
+    # return HttpResponse(result)
+    return render(request, 'booktest/index.html', {"username": "ggb"})
 
 
 def list(request):
-    return HttpResponse("列表页")
+    # return HttpResponse("列表页")
+    book = Book.objects.all()
+    return render(request, 'booktest/list.html', {'booklist': book})
 
 
 def detail(request, id):
     # return HttpResponse("详情页"+str(id))
-    try:
-        book = Book.objects.get(pk=int(id))
-        return HttpResponse(book)
-    except:
-        return HttpResponse("请输入正确ID")
+    book = Book.objects.get(pk=id)
+    return render(request, 'booktest/detail.html', {'book': book})
+
+    # try:
+    #     book = Book.objects.get(pk=int(id))
+    #     return HttpResponse(book)
+    # except:
+    #     return HttpResponse("请输入正确ID")
 
 
 """

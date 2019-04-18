@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>详情页</title>
+</head>
+<body>
+    <h2>书名: {{ book.book_title }}</h2>
+    <ul>
+
+        {% for hero in book.hero_set.all %}
+            <li>{{hero.name}} ------ {{hero.content}}</li>
+        {% empty %}
+            <h3>没有英雄</h3>
+        {% endfor %}
+
+    </ul>
+    {# <a href="/booktest/list/">返回</a> #}
+    <a href="{% url 'booktest:list' %}">返回</a>
+
+</body>
+</html>
