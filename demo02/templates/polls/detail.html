@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>投票详情</title>
+    {# <link rel="stylesheet" href="/static/css/main.css"> #}
+    {% load static from staticfiles %}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h2>问题：{{qs.text}}</h2>
+        {% for s in qs.select_set.all %}
+            <li>{{s.item}}: {{s.vote}}</li>
+        {% empty %}
+            还没有投票
+        {% endfor %}
+        <a href="{% url 'polls:index' %}">返回话题首页</a>
+    </div>
+</body>
+</html>

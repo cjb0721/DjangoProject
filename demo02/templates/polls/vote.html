@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>投票页</title>
+    {# <link rel="stylesheet" href="/static/css/main.css"> #}
+    {% load static from staticfiles %}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h2>问题：{{qs.text}}</h2>
+        <!--{# <form action="/polls/detail/" method="post"> #}-->
+        <form action="{% url 'polls:detail' %}" method="post">
+            <ul>
+                {% for i in qs.select_set.all %}
+                <li><input type="radio" name="item" value="{{i.id}}">{{i.item}}</li>
+                {% empty %}
+                    <h3>没有选项</h3>
+                {% endfor %}
+            </ul>
+            <input type="hidden" value="{{qid}}" name="qid">
+            <input type="submit" value="投票">
+        </form>
+        <a href="{% url 'polls:index' %}">返回</a>
+    </div>
+
+</body>
+</html>
