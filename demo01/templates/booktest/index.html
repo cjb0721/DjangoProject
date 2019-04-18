@@ -3,19 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>首页</title>
+    {# <link rel="stylesheet" href="/static/css/main.css"> #}
+
+    {% load static from staticfiles %}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
 </head>
 <body>
-    {% if username %}
-        <h2>{{username}}</h2>
-    {% else %}
-        <h2>没有登录</h2>
-    {% endif %}
+    <div class="container">
+        {% if username %}
+            <h2>{{username}}</h2>
+        {% else %}
+            <h2>没有登录</h2>
+        {% endif %}
 
-    {# 超级链接硬编码 #}
-    {#<a href="/booktest/list">进入列表页</a>#}
+        {# <img src="/static/img/bg1.png" alt="" width="1000px"> #}
+        <img src="{% static 'img/bg1.png' %}" alt="" width="1000px">
 
-    {#去除硬编码#}
-    <a href=" {% url 'booktest:list' %} ">进入列表页</a>
+        {# 超级链接硬编码 #}
+        {#<a href="/booktest/list">进入列表页</a>#}
+        {#去除硬编码#}
+        <a href=" {% url 'booktest:list' %} ">进入列表页</a>
+    </div>
 
 </body>
 </html>
