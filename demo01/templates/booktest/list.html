@@ -11,12 +11,16 @@
         <ul>
             {% for book in booklist %}
                 {# <li><a href="/booktest/detail/{{book.id}}/">{{ book }}</a> </li> #}
-                <li><a href="{% url 'booktest:detail' book.id %}">{{ book }}</a> </li>
+                <li>
+                    <a href="{% url 'booktest:detail' book.id %}">{{ book }}</a>
+                    <a href="{% url 'booktest:delete' book.id %}">删除</a>
+                </li>
             {% empty %}
                 <h3>没有书籍信息</h3>
             {% endfor %}
 
         </ul>
+
         {# <a href="/booktest/">返回首页</a> #}
         <a href="{% url 'booktest:index' %}">返回首页</a>
 

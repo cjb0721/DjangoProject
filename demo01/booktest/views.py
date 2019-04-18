@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-from .models import Book
+from django.http import HttpResponse, HttpResponseRedirect
+from .models import Book,Hero
 from django.template import loader
 
 # Create your views here.
@@ -35,6 +35,49 @@ def detail(request, id):
     #     return HttpResponse(book)
     # except:
     #     return HttpResponse("请输入正确ID")
+
+
+def delete(request, id):
+    try:
+        Book.objects.get(pk=id).delete()
+        book = Book.objects.all()
+        # 使用render没有刷新请求URL
+        # return render(request, 'booktest/list.html', {'booklist': book})
+        # 使用HttpResponseRedirect重定向
+        return HttpResponseRedirect(request, 'booktest/list.html', {'booklist': book})
+    except:
+        return HttpResponse("删除失败")
+
+
+def addhero(request, id):
+    try:
+        # book = Book.objects.get(pk=id)
+        return render(request, 'booktest/addhero.html', {"bid":id})
+    except:
+        return HttpResponse("添加失败")
+
+
+def addherohander(request):
+    bid = request.POST["bid"]
+    hname = request.POST["heroname"]
+    hgender = request.POST["sex"]
+    hskill = request.POST["heroskill"]
+    # print(bid, hname, hgender, hskill)
+    # print(hgender, type(hgender))
+
+    book = Book.objects.get(pk=bid)
+
+    h1 = Hero()
+    h1.name = hname
+    h1.gender = True
+    if hgender == "0":
+        h1.gender = False
+    h1.content = hskill
+    h1.book = book
+    h1.save()
+    return HttpResponseRedirect('/booktest/detail/'+str(bid)+'/', {"book": book})
+
+    # return HttpResponse("提交成功")
 
 
 """
