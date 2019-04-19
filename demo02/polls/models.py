@@ -10,6 +10,10 @@ class Question(models.Model):
     def __str__(self):
         return self.text
 
+    def desctext(self):
+        return self.text
+    desctext.short_description = '问题描述'
+
 
 class Select(models.Model):
     item = models.CharField(max_length=20)
@@ -18,4 +22,13 @@ class Select(models.Model):
 
     def __str__(self):
         return self.item
+
+    def choice(self):
+        return self.item
+    choice.short_description = '问题选项'
+
+    def votes(self):
+        return self.vote
+    votes.short_description = '投票数'
+
 

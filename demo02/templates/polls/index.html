@@ -13,7 +13,7 @@
         <ul>
             {% for l in ql %}
                 {# <li><a href="/polls/vote/{{l.id}}/">{{l.text}}</a></li> #}
-                <li><a href="{% url 'polls:vote' l.id %}">{{l.text}}</a></li>
+                <li> {{forloop.counter}} <a href="{% url 'polls:vote' l.id %}">{{l.text}}</a></li>
             {% empty %}
                 <h3>还没有话题呦</h3>
             {% endfor %}

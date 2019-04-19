@@ -7,4 +7,5 @@ urlpatterns = [
     url(r'^$', views.index, name="index"),
     url(r'vote/(\d+)/$', views.vote, name="vote"),
     url(r'detail/$', views.detail, name="detail"),
+    url(r'result/(\d+)/$', views.result, name="result"),
 ]
