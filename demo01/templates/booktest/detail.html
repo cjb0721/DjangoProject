@@ -11,7 +11,10 @@
         <ul>
 
             {% for hero in book.hero_set.all %}
-                <li>{{hero.name}} ------ {{hero.content}}</li>
+                <li>{{hero.name}} ------ {{hero.content}}---
+                    <a href="{% url 'booktest:deletehero' hero.id %}">删除</a>&nbsp;
+                    <a href="{% url 'booktest:modifyhero' hero.id %}">修改</a>
+                </li>
             {% empty %}
                 <h3>没有英雄</h3>
             {% endfor %}

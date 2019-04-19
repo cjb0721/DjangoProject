@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>编辑英雄信息</title>
+    {% load static from staticfiles %}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+</head>
+<body>
+
+    <div class="container">
+        <h2>英雄编号：{{hero.id}}</h2>
+        <form action="{% url 'booktest:modifyherohander' hero.id %}" method="post">
+            角色名：<input type="text" name="heroname" placeholder="{{hero.name}}" required><br>
+            性别：<input type="radio" name="sex" value="1" checked>男
+                 <input type="radio" name="sex" value="0">女 <br>
+            技能：<input type="text" name="heroskill" placeholder="{{hero.content}}" required><br>
+            <input type="hidden" value="{{hero.book.id}}" name="bid">
+
+            <input type="submit" value="添加">
+        </form>
+        <a href="{% url 'booktest:detail' hero.book.id %}">返回</a>
+    </div>
+
+</body>
+</html>

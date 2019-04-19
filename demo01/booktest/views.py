@@ -37,6 +37,22 @@ def detail(request, id):
     #     return HttpResponse("请输入正确ID")
 
 
+def addbook(request):
+    try:
+        return render(request, 'booktest/addbook.html', {})
+    except:
+        return HttpResponse("添加失败")
+
+
+def addbookhander(request):
+    bname = request.POST['bookname']
+    # print(bname)
+    b = Book()
+    b.book_title = bname
+    b.save()
+    return HttpResponseRedirect('/booktest/list/', {'booklist': b})
+
+
 def delete(request, id):
     try:
         Book.objects.get(pk=id).delete()
@@ -44,9 +60,25 @@ def delete(request, id):
         # 使用render没有刷新请求URL
         # return render(request, 'booktest/list.html', {'booklist': book})
         # 使用HttpResponseRedirect重定向
-        return HttpResponseRedirect(request, 'booktest/list.html', {'booklist': book})
+        return HttpResponseRedirect('/booktest/list/', {'booklist': book})
     except:
         return HttpResponse("删除失败")
+
+
+def modifybook(request, id):
+    try:
+        b = Book.objects.get(pk=id)
+        return render(request, 'booktest/modifybook.html', {"book": b})
+    except:
+        return HttpResponse("跳转失败")
+
+
+def modifybookhander(request, id):
+    bname = request.POST['bookname']
+    b = Book.objects.get(pk=id)
+    b.book_title = bname
+    b.save()
+    return HttpResponseRedirect('/booktest/list/', {'booklist': b})
 
 
 def addhero(request, id):
@@ -55,6 +87,41 @@ def addhero(request, id):
         return render(request, 'booktest/addhero.html', {"bid":id})
     except:
         return HttpResponse("添加失败")
+
+
+def deletehero(request, hid):
+    try:
+        result = Hero.objects.get(pk=hid)
+        book = result.book
+        result.delete()
+        return HttpResponseRedirect('/booktest/detail/'+str(book.id)+'/', {'book': book})
+    except:
+        return HttpResponse("添加失败")
+
+
+def modifyhero(request, id):
+    try:
+        h = Hero.objects.get(pk=id)
+        # print(h.id)
+        return render(request, 'booktest/modifyhero.html', {"hero": h})
+    except:
+        return HttpResponse("跳转失败")
+
+
+def modifyherohander(request, id):
+    hname = request.POST['heroname']
+    hgender = request.POST['sex']
+    hcontent = request.POST['heroskill']
+    bid = request.POST['bid']
+    # print(hname, hgender, hcontent, bid)
+    b = Book.objects.get(pk=bid)
+    h = b.hero_set.get(pk=id)
+    h.name = hname
+    h.gender = hgender
+    h.content = hcontent
+    h.book = b
+    h.save()
+    return HttpResponseRedirect('/booktest/detail/'+str(bid)+'/', {'book': b})
 
 
 def addherohander(request):

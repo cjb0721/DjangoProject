@@ -3,17 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>添加英雄角色</title>
+    {% load static from staticfiles %}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
 </head>
 <body>
-    <h2>添加角色</h2>
-    <form action="{% url 'booktest:addherohander' %}" method="post">
-        角色名：<input type="text" name="heroname"><br>
-        性别：<input type="radio" name="sex" value="1">男
-             <input type="radio" name="sex" value="0">女 <br>
-        技能：<input type="text" name="heroskill"><br>
-        <input type="hidden" value="{{bid}}" name="bid">
+    <div class="container">
+        <h2>添加角色</h2>
+        <form action="{% url 'booktest:addherohander' %}" method="post">
+            角色名：<input type="text" name="heroname"><br>
+            性别：<input type="radio" name="sex" value="1">男
+                 <input type="radio" name="sex" value="0">女 <br>
+            技能：<input type="text" name="heroskill"><br>
+            <input type="hidden" value="{{bid}}" name="bid">
 
-        <input type="submit" value="添加">
-    </form>
+            <input type="submit" value="添加">
+        </form>
+        <a href="{% url 'booktest:detail' bid %}">返回</a>
+    </div>
 </body>
 </html>
