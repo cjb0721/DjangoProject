@@ -10,11 +10,14 @@
 <body>
     <div class="container">
         <h2>问题：{{qs.text}}</h2>
+        <a href="{% url 'polls:votemanage' qid %}">投票管理</a>
         <!--{# <form action="/polls/detail/" method="post"> #}-->
         <form action="{% url 'polls:detail' %}" method="post">
             <ul>
                 {% for i in qs.select_set.all %}
-                <li><input type="radio" name="vote" value="{{i.id}}">{{i.item}}</li>
+                <li>
+                    <input type="radio" name="vote" value="{{i.id}}" required>{{i.item}}
+                </li>
                 {% empty %}
                     <h3>没有选项</h3>
                 {% endfor %}

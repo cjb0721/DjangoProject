@@ -10,10 +10,15 @@
 <body>
     <div class="container">
         <h2>热门问题列表</h2>
+        <a href="{% url 'polls:addquestion' %}">添加问题</a>
         <ul>
             {% for l in ql %}
                 {# <li><a href="/polls/vote/{{l.id}}/">{{l.text}}</a></li> #}
-                <li> {{forloop.counter}} <a href="{% url 'polls:vote' l.id %}">{{l.text}}</a></li>
+                <li>
+                    {{forloop.counter}} <a href="{% url 'polls:vote' l.id %}">{{l.text}}</a>
+                    <a href="{% url 'polls:deletequestion' l.id %}">删除</a>
+                    <a href="{% url 'polls:modifyquestion' l.id %}">修改</a>
+                </li>
             {% empty %}
                 <h3>还没有话题呦</h3>
             {% endfor %}

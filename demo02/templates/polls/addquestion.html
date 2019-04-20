@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加话题</title>
+</head>
+<body>
+    <h2>热门话题添加</h2>
+    <form action="{% url 'polls:addquestionhander' %}" method="post">
+        标题：<input type="text" name="title" required>
+        <input type="submit" value="添加">
+    </form>
+    <a href="{% url 'polls:index' %}">返回</a>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改话题名称</title>
+</head>
+<body>
+
+    <h2>话题修改</h2>
+    <form action="{% url 'polls:modifyquestionhander' qt.id %}" method="post">
+        标题：<input type="text" name="title" required placeholder="{{qt.text}}">
+        <input type="submit" value="保存">
+    </form>
+    <a href="{% url 'polls:index' %}">返回</a>
+
+</body>
+</html>

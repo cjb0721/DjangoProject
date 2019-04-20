@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加投票选项</title>
+</head>
+<body>
+    <h2>添加选项</h2>
+    <form action="{% url 'polls:addchoicehander' %}" method="post">
+        选项名称：<input type="text" name="item" required><br>
+        投票数：<input type="number" name="vote" required><br>
+        <input type="hidden" name="qid" value="{{qs.id}}">
+        <input type="submit" value="添加">
+    </form>
+    <a href="{% url 'polls:votemanage' qs.id %}">返回</a>
+</body>
+</html>
