@@ -19,5 +19,7 @@ urlpatterns = [
     url(r'addchoice/(\d+)/$', views.addchoice, name='addchoice'),
     url(r'addchoicehander/$', views.addchoicehander, name='addchoicehander'),
     url(r'deletechoice/(\d+)/$', views.deletechoice, name='deletechoice'),
+    url(r'modifychoice/(\d+)/$', views.modifychoice, name='modifychoice'),
+    url(r'modifychoicehander/(\d+)/$', views.modifychoicehander, name='modifychoicehander'),
 
 ]

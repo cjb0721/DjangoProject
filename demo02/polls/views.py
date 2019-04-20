@@ -101,7 +101,17 @@ def deletechoice(request, id):
     return HttpResponseRedirect('polls/votemanage/'+str(q.id)+'/', {'question': q, 'sl': sl})
 
 
-def modifychoice(request):
-    pass
+def modifychoice(request, id):
+    sl = Select.objects.get(pk=id)
+    q = sl.question
+    return render(request, 'polls/modifychoice.html', {'question': q, 'sl': sl})
 
+
+def modifychoicehander(request, id):
+    sl = Select.objects.get(pk=id)
+    sl.item = request.POST['item']
+    sl.vote = request.POST['vote']
+    sl.save()
+    q = sl.question
+    return HttpResponseRedirect('/polls/votemanage/'+str(q.id)+'/', {'question': q, 'sl': sl})
 

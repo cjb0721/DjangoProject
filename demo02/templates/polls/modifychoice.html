@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改选项信息</title>
+    {% load static from staticfiles %}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h2>编辑选项</h2>
+        <form action="{% url 'polls:modifychoicehander' sl.id %}" method="post">
+            选项：<input type="text" name="item" placeholder="{{sl.item}}" required>
+            票数：<input type="number" name="vote" placeholder="{{sl.vote}}" required>
+            <input type="submit" value="保存">
+        </form>
+        <a href="{% url 'polls:votemanage' question.id %}">返回</a>
+    </div>
+</body>
+</html>

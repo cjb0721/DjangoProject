@@ -3,23 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>投票管理</title>
+    {% load static from staticfiles %}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
 </head>
 <body>
 
-    <h2>话题：{{question.text}}</h2>
-    <a href="{% url 'polls:addchoice' question.id %}">添加投票选项</a>
-    <ul>
-        {% for l in sl %}
-            <li>
-                {{l}}
-                <a href="{% url 'polls:deletechoice' l.id %}">删除</a>
-                <a href="">修改</a>
-            </li>
-        {% empty %}
-            <h3>还没有选项</h3>
-        {% endfor %}
-    </ul>
-    <a href="{% url 'polls:vote' question.id  %}">返回</a>
+    <div class="container">
+        <h2>话题：{{question.text}}</h2>
+        <a href="{% url 'polls:addchoice' question.id %}">添加投票选项</a>
+        <ul>
+            {% for l in sl %}
+                <li>
+                    {{l}}
+                    <a href="{% url 'polls:deletechoice' l.id %}">删除</a>
+                    <a href="{% url 'polls:modifychoice' l.id %}">修改</a>
+                </li>
+            {% empty %}
+                <h3>还没有选项</h3>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'polls:vote' question.id  %}">返回</a>
+    </div>
 
 </body>
 </html>
