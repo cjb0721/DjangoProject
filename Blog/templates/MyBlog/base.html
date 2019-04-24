@@ -1,3 +1,6 @@
+{% load extend %}
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -113,21 +116,21 @@
                 <div class="widget widget-archives">
                     <h3 class="widget-title">归档</h3>
                     <ul>
-                        <li>
-                            <a href="#">2017 年 5 月</a>
-                        </li>
-                        <li>
-                            <a href="#">2017 年 4 月</a>
-                        </li>
-                        <li>
-                            <a href="#">2017 年 3 月</a>
-                        </li>
+                        {% datelist as dates %}
+                        {% for a in dates %}
+                            <li>
+                                <a href="#">{{ a|date:"Y 年 m 月" }}</a>
+                            </li>
+                        {% empty %}
+                            <h2>没有归档内容</h2>
+                        {% endfor %}
                     </ul>
                 </div>
 
                 <div class="widget widget-category">
                     <h3 class="widget-title">分类</h3>
                     <ul>
+                        {% sortlist as sort %}
                         {% for s in sort %}
                             <li>
                                 <a href="#">{{ s.sort }} <span class="post-count">({{ s.article_set.count }})</span></a>
@@ -152,7 +155,7 @@
                 <div class="widget widget-tag-cloud">
                     <h3 class="widget-title">标签云</h3>
                     <ul>
-
+                        {% labellist as labels %}
                         {% for label in labels %}
                             <li>
                                 <a href="#">{{ label.tag_name }}</a>
