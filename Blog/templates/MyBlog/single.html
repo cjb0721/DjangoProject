@@ -79,7 +79,7 @@
             <main class="col-md-8">
                 <article class="post post-{{ article.id }}">
                     <header class="entry-header">
-                        <h1 class="entry-title">{{ article.title }}：前言</h1>
+                        <h1 class="entry-title">{{ article.title }}</h1>
                         <div class="entry-meta">
                             <span class="post-category"><a href="#">{{ article.sort }}</a></span>
                             <span class="post-date"><a href="#"><time class="entry-date"
@@ -120,7 +120,9 @@
                 <section class="comment-area" id="comment-area">
                     <hr>
                     <h3>发表评论</h3>
-                    <form action="#" method="post" class="comment-form">
+
+                    <form action="{% url 'MyBlog:single' article.id %}" method="post" class="comment-form">
+                        {% csrf_token %}
                         <div class="row">
                             <div class="col-md-4">
                                 <label for="id_name">名字：</label>
@@ -142,36 +144,21 @@
                         </div>    <!-- row -->
                     </form>
                     <div class="comment-list-panel">
-                        <h3>评论列表，共 <span>4</span> 条评论</h3>
+                        <h3>评论列表，共 <span>{{ article.comment_set.count }}</span> 条评论</h3>
                         <ul class="comment-list list-unstyled">
+
+                            {% for comment in comments %}
                             <li class="comment-item">
-                                <span class="nickname">追梦人物</span>
-                                <time class="submit-date" datetime="2012-11-09T23:15:57+00:00">2017年3月12日 14:56</time>
+                                <span class="nickname">{{ comment.commentator }}</span>
+                                <time class="submit-date" datetime="{{ comment.pub_date }}">{{ comment.pub_date|date:"Y年m月d日 h:m" }}</time>
                                 <div class="text">
-                                    文章观点又有道理又符合人性，这才是真正为了表达观点而写，不是为了迎合某某知名人士粉丝而写。我觉得如果琼瑶是前妻，生了三孩子后被一不知名的女人挖了墙角，我不信谁会说那个女人是追求真爱，说同情琼瑶骂小三的女人都是弱者。
+                                    {{ comment.content }}
                                 </div>
                             </li>
-                            <li class="comment-item">
-                                <span class="nickname">zmrenwu</span>
-                                <time class="submit-date" datetime="2012-11-09T23:15:57+00:00">2017年3月11日 23:56</time>
-                                <div class="text">
-                                    本能有可能会冲破格局，但格局有时候也会拘住本能。
-                                </div>
-                            </li>
-                            <li class="comment-item">
-                                <span class="nickname">蝙蝠侠</span>
-                                <time class="submit-date" datetime="2012-11-09T23:15:57+00:00">2017年3月9日 8:56</time>
-                                <div class="text">
-                                    其实真理一般是属于沉默的大多数的。那些偏激的观点只能吸引那些同样偏激的人。前几年琼瑶告于妈抄袭，大家都表示大快人心，说明吃瓜观众都只是就事论事，并不是对琼瑶有偏见。
-                                </div>
-                            </li>
-                            <li class="comment-item">
-                                <span class="nickname">长江七号</span>
-                                <time class="submit-date" datetime="2012-11-09T23:15:57+00:00">2017年2月12日 12:56</time>
-                                <div class="text">
-                                    观点我很喜欢！就是哎嘛本来一清二楚的，来个小三小四乱七八糟一团乱麻夹缠不清，简直麻烦要死
-                                </div>
-                            </li>
+                            {% empty %}
+                                <h2>还没有评论</h2>
+                            {% endfor %}
+
                         </ul>
                     </div>
                 </section>
@@ -200,6 +187,14 @@
                 <div class="widget widget-recent-posts">
                     <h3 class="widget-title">最新文章</h3>
                     <ul>
+                        {% for n in new %}
+                            <li>
+                                <a href="#">{{ n.title }}</a>
+                            </li>
+                        {% empty %}
+                            <h2>没有文章</h2>
+                        {% endfor %}
+                        {% comment %}
                         <li>
                             <a href="#">Django 博客开发入门教程：前言</a>
                         </li>
@@ -209,11 +204,22 @@
                         <li>
                             <a href="#">部署 Django 博客</a>
                         </li>
+                        {% endcomment %}
                     </ul>
                 </div>
                 <div class="widget widget-archives">
                     <h3 class="widget-title">归档</h3>
                     <ul>
+                        {% comment %}
+                        {% for article in article %}
+                            <li>
+                                <a href="#">{{ article.pub_date|date:"Y 年 m 月" }}</a>
+                            </li>
+                        {% empty %}
+                            <h2>没有可归档博客</h2>
+                        {% endfor %}
+                        {% endcomment %}
+
                         <li>
                             <a href="#">2017 年 5 月</a>
                         </li>
@@ -223,12 +229,21 @@
                         <li>
                             <a href="#">2017 年 3 月</a>
                         </li>
+
                     </ul>
                 </div>
 
                 <div class="widget widget-category">
                     <h3 class="widget-title">分类</h3>
                     <ul>
+                        {% for s in sort %}
+                            <li>
+                                <a href="#">{{ s.sort }} <span class="post-count">({{ s.article_set.count }})</span></a>
+                            </li>
+                        {% empty %}
+                            <h2>没有分类</h2>
+                        {% endfor %}
+                        {% comment %}
                         <li>
                             <a href="#">Django 博客教程 <span class="post-count">(13)</span></a>
                         </li>
@@ -238,12 +253,21 @@
                         <li>
                             <a href="#">Django 用户认证 <span class="post-count">(8)</span></a>
                         </li>
+                        {% endcomment %}
                     </ul>
                 </div>
 
                 <div class="widget widget-tag-cloud">
                     <h3 class="widget-title">标签云</h3>
                     <ul>
+                        {% for label in labels %}
+                            <li>
+                                <a href="#">{{ label.tag_name }}</a>
+                            </li>
+                        {% empty %}
+                            <h2>没有任何标签</h2>
+                        {% endfor %}
+                        {% comment %}
                         <li>
                             <a href="#">Django</a>
                         </li>
@@ -274,6 +298,7 @@
                         <li>
                             <a href="#">jQuery</a>
                         </li>
+                        {% endcomment %}
                     </ul>
                 </div>
                 <div class="rss">
@@ -289,7 +314,7 @@
             <div class="col-md-12">
                 <p class="copyright">&copy 2017 - Collect from <a href="http://www.cssmoban.com/"
                                                                   target="_blank" title="模板之家">模板之家</a>
-                    - Modified by <a href="http://zmrenwu.com/" title="网页模板" target="_blank">追梦人物的博客</a>
+                    - Modified by <a href="http://zmrenwu.com/" title="网页模板" target="_blank">{{ article.author }}的博客</a>
                 </p>
             </div>
         </div>

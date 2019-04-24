@@ -79,11 +79,11 @@
     <div class="container">
         <div class="row">
             <main class="col-md-8">
-                {% for article in articles %}
+                {% for article in pages %}
                     <article class="post post-{{ article.id }}">
                         <header class="entry-header">
                             <h1 class="entry-title">
-                                <a href="{% url 'MyBlog:single' %}">{{ article.title }}：前言</a>
+                                <a href="{% url 'MyBlog:single' article.id %}">{{ article.title }}</a>
                             </h1>
                             <div class="entry-meta">
                                 <span class="post-category"><a href="#">{{ article.sort }}</a></span>
@@ -184,6 +184,32 @@
                 -->
                 <div class="pagination">
                     <ul>
+
+                        {% if pages.has_previous %}
+                            <li>
+                                <a href="?page={{ pages.previous_page_number }}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+
+                        {% for pg in pages.paginator.page_range %}
+                            {% if pages.number == pg %}
+                                <li class="current"><a href="?page={{pg}}">{{ pg }}</a></li>
+                            {% else %}
+                                <li><a href="?page={{ pg }}">{{ pg }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if page.has_next %}
+                            <li>
+                                <a href="?page={{ pages.next_page_number }}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+
+                        {% comment %}
                         <li><a href="">1</a></li>
                         <li><a href="">...</a></li>
                         <li><a href="">4</a></li>
@@ -193,6 +219,7 @@
                         <li><a href="">8</a></li>
                         <li><a href="">...</a></li>
                         <li><a href="">11</a></li>
+                        {% endcomment %}
                     </ul>
                 </div>
             </main>
@@ -200,6 +227,14 @@
                 <div class="widget widget-recent-posts">
                     <h3 class="widget-title">最新文章</h3>
                     <ul>
+                        {% for n in new %}
+                            <li>
+                                <a href="#">{{ n.title }}</a>
+                            </li>
+                        {% empty %}
+                            <h2>没有文章</h2>
+                        {% endfor %}
+                        {% comment %}
                         <li>
                             <a href="#">Django 博客开发入门教程：前言</a>
                         </li>
@@ -209,6 +244,7 @@
                         <li>
                             <a href="#">部署 Django 博客</a>
                         </li>
+                        {% endcomment %}
                     </ul>
                 </div>
                 <div class="widget widget-archives">
@@ -229,6 +265,14 @@
                 <div class="widget widget-category">
                     <h3 class="widget-title">分类</h3>
                     <ul>
+                        {% for s in sort %}
+                            <li>
+                                <a href="#">{{ s.sort }} <span class="post-count">({{ s.article_set.count }})</span></a>
+                            </li>
+                        {% empty %}
+                            <h2>没有分类</h2>
+                        {% endfor %}
+                        {% comment %}
                         <li>
                             <a href="#">Django 博客教程 <span class="post-count">(13)</span></a>
                         </li>
@@ -238,42 +282,22 @@
                         <li>
                             <a href="#">Django 用户认证 <span class="post-count">(8)</span></a>
                         </li>
+                        {% endcomment %}
                     </ul>
                 </div>
 
                 <div class="widget widget-tag-cloud">
                     <h3 class="widget-title">标签云</h3>
                     <ul>
-                        <li>
-                            <a href="#">Django</a>
-                        </li>
-                        <li>
-                            <a href="#">Python</a>
-                        </li>
-                        <li>
-                            <a href="#">Java</a>
-                        </li>
-                        <li>
-                            <a href="#">笔记</a>
-                        </li>
-                        <li>
-                            <a href="#">文档</a>
-                        </li>
-                        <li>
-                            <a href="#">AngularJS</a>
-                        </li>
-                        <li>
-                            <a href="#">CSS</a>
-                        </li>
-                        <li>
-                            <a href="#">JavaScript</a>
-                        </li>
-                        <li>
-                            <a href="#">Snippet</a>
-                        </li>
-                        <li>
-                            <a href="#">jQuery</a>
-                        </li>
+
+                        {% for label in labels %}
+                            <li>
+                                <a href="#">{{ label.tag_name }}</a>
+                            </li>
+                        {% empty %}
+                            <h2>没有任何标签</h2>
+                        {% endfor %}
+
                     </ul>
                 </div>
                 <div class="rss">

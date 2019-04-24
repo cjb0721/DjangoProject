@@ -5,6 +5,6 @@ app_name = 'MyBlog'
 
 urlpatterns = [
     url('^$', views.index, name='index'),
-    url('single/$', views.single, name='single'),
+    url('single/(\d+)/$', views.single, name='single'),
 ]
 
