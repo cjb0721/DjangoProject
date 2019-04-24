@@ -95,22 +95,12 @@
                     <ul>
                         {% for n in new %}
                             <li>
-                                <a href="#">{{ n.title }}</a>
+                                <a href="{% url 'MyBlog:single' n.id %}">{{ n.title }}</a>
                             </li>
                         {% empty %}
                             <h2>没有文章</h2>
                         {% endfor %}
-                        {% comment %}
-                        <li>
-                            <a href="#">Django 博客开发入门教程：前言</a>
-                        </li>
-                        <li>
-                            <a href="#">Django 博客使用 Markdown 自动生成文章目录</a>
-                        </li>
-                        <li>
-                            <a href="#">部署 Django 博客</a>
-                        </li>
-                        {% endcomment %}
+
                     </ul>
                 </div>
                 <div class="widget widget-archives">
@@ -119,7 +109,7 @@
                         {% datelist as dates %}
                         {% for a in dates %}
                             <li>
-                                <a href="#">{{ a|date:"Y 年 m 月" }}</a>
+                                <a href="{% url 'MyBlog:catalog' a|date:'m' %}">{{ a|date:"Y 年 m 月" }}</a>
                             </li>
                         {% empty %}
                             <h2>没有归档内容</h2>
@@ -133,22 +123,12 @@
                         {% sortlist as sort %}
                         {% for s in sort %}
                             <li>
-                                <a href="#">{{ s.sort }} <span class="post-count">({{ s.article_set.count }})</span></a>
+                                <a href="{% url 'MyBlog:sorts' s.id %}">{{ s.sort }} <span class="post-count">({{ s.article_set.count }})</span></a>
                             </li>
                         {% empty %}
                             <h2>没有分类</h2>
                         {% endfor %}
-                        {% comment %}
-                        <li>
-                            <a href="#">Django 博客教程 <span class="post-count">(13)</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Python 教程 <span class="post-count">(11)</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Django 用户认证 <span class="post-count">(8)</span></a>
-                        </li>
-                        {% endcomment %}
+
                     </ul>
                 </div>
 

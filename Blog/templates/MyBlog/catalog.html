@@ -1,7 +1,7 @@
-﻿{% extends 'MyBlog/base.html' %}
+{% extends 'MyBlog/base.html' %}
 
 {% block left %}
-    {% for article in pages %}
+    {% for article in articles %}
         <article class="post post-{{ article.id }}">
             <header class="entry-header">
                 <h1 class="entry-title">
@@ -36,46 +36,7 @@
         <a href="#">下一页</a>
     </div>
     -->
-    <div class="pagination">
-        <ul>
 
-            {% if pages.has_previous %}
-                <li>
-                    <a href="?page={{ pages.previous_page_number }}" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-            {% endif %}
-
-            {% for pg in pages.paginator.page_range %}
-                {% if pages.number == pg %}
-                    <li class="current"><a href="?page={{pg}}">{{ pg }}</a></li>
-                {% else %}
-                    <li><a href="?page={{ pg }}">{{ pg }}</a></li>
-                {% endif %}
-            {% endfor %}
-
-            {% if page.has_next %}
-                <li>
-                    <a href="?page={{ pages.next_page_number }}" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            {% endif %}
-
-            {% comment %}
-            <li><a href="">1</a></li>
-            <li><a href="">...</a></li>
-            <li><a href="">4</a></li>
-            <li><a href="">5</a></li>
-            <li class="current"><a href="">6</a></li>
-            <li><a href="">7</a></li>
-            <li><a href="">8</a></li>
-            <li><a href="">...</a></li>
-            <li><a href="">11</a></li>
-            {% endcomment %}
-        </ul>
-    </div>
 {% endblock %}
 
 

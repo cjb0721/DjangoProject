@@ -15,6 +15,7 @@ def index(request):
     # print(article, type(article))
     # print(article.title, article.sort, article.author, article.pub_date)
     # print(article.sort, type(article.sort))
+    # print(list(new))
 
     # 分页
     pageinator = Paginator(new, 4)
@@ -50,4 +51,35 @@ def single(request, id):
         c.save()
 
         return redirect('/MyBlog/single/'+str(id)+'/', {"article": article, "comments": comments, "new": list(new)[:3]})
+
+
+def catalog(request, mon):
+    article = Article.objects.all()
+    articles = []
+    # print(mon, type(mon))
+    for a in article:
+        # print(str(a.pub_date).split(" ")[0].split("-")[1])
+        month = str(a.pub_date).split(" ")[0].split("-")[1]
+        if mon == month:
+            articles.append(a)
+    return render(request, 'MyBlog/catalog.html', {"articles": articles})
+
+
+def sorts(request, id):
+    sort = ArticleSort.objects.get(pk=id)
+    articles = sort.article_set.all()
+
+    # 分页
+    pageinator = Paginator(articles, 4)
+    num = request.GET.get('page')
+    try:
+        page = pageinator.page(num)
+    except PageNotAnInteger:
+        page = pageinator.page(1)
+    except EmptyPage:
+        page = pageinator.page(pageinator.num_pages)
+
+    return render(request, 'MyBlog/sorts.html', {"pages": page})
+
+
 

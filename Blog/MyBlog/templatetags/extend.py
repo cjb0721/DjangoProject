@@ -1,5 +1,6 @@
 from django import template
 from ..models import *
+from django.core.paginator import *
 
 
 register = template.Library()
@@ -8,6 +9,7 @@ register = template.Library()
 @register.simple_tag
 def datelist():
     dates = Article.objects.dates("pub_date", "month", order="DESC")[:3]
+    # print(dates, type(dates))
     return dates
 
 
@@ -21,6 +23,7 @@ def sortlist():
 def labellist():
     labels = Label.objects.all()
     return labels
+
 
 
 
