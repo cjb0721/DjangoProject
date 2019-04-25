@@ -93,6 +93,7 @@
                 <div class="widget widget-recent-posts">
                     <h3 class="widget-title">最新文章</h3>
                     <ul>
+                        {% newarticlelist as new %}
                         {% for n in new %}
                             <li>
                                 <a href="{% url 'MyBlog:single' n.id %}">{{ n.title }}</a>
@@ -147,7 +148,7 @@
                     </ul>
                 </div>
                 <div class="rss">
-                    <a href=""><span class="ion-social-rss-outline"></span> RSS 订阅</a>
+                    <a href="{% url 'MyBlog:rss' %}"><span class="ion-social-rss-outline"></span> RSS 订阅</a>
                 </div>
             </aside>
         </div>

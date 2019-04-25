@@ -1,5 +1,6 @@
 from django import template
 from ..models import *
+from comment.models import *
 from django.core.paginator import *
 
 
@@ -25,6 +26,16 @@ def labellist():
     return labels
 
 
+@register.simple_tag
+def commentslist():
+    comments = Comments.objects.all()
+    print(comments.article)
+    return comments
 
+
+@register.simple_tag
+def newarticlelist():
+    newarticle = Article.objects.all().order_by('-pub_date')
+    return list(newarticle)[:3]
 
 
