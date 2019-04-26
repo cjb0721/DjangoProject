@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'MyBlog',
     'comment',
+    # 1、添加应用
+    'haystack',
 ]
 
 MIDDLEWARE = [
@@ -123,3 +125,22 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+# 2、添加搜索引擎
+HAYSTACK_CONNECTIONS = {
+    'default': {
+    'ENGINE': 'MyBlog.whoosh_cn_backend.WhooshEngine',
+    'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
+    }
+}
+
+# 3、分页设置
+HAYSTACK_SEARCH_RESULTS_PER_PAGE = 10
+
+# 4、索引生成设置
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+
+
+
+
+

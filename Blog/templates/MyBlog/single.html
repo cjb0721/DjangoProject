@@ -9,7 +9,7 @@
                 <span class="post-date"><a href="#"><time class="entry-date"
                                                           datetime="{{ article.pub_date }}">{{ article.pub_date|date:"Y年m月d日" }}</time></a></span>
                 <span class="post-author"><a href="#">{{ article.author }}</a></span>
-                <span class="comments-link"><a href="#">{{ article.comment_set.count }} 评论</a></span>
+                <span class="comments-link"><a href="#">{{ article.comments_set.count }} 评论</a></span>
                 <span class="views-count"><a href="#">{{ article.read_num }} 阅读</a></span>
             </div>
         </header>

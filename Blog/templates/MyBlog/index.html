@@ -12,14 +12,14 @@
                     <span class="post-date"><a href="#"><time class="entry-date"
                                                               datetime="{{ article.pub_date }}">{{ article.pub_date|date:"Y年m月d日" }}</time></a></span>
                     <span class="post-author"><a href="#">{{ article.author }}</a></span>
-                    <span class="comments-link"><a href="#">{{ article.comment_set.count }} 评论</a></span>
+                    <span class="comments-link"><a href="#">{{ article.comments_set.count }} 评论</a></span>
                     <span class="views-count"><a href="#">{{ article.read_num }} 阅读</a></span>
                 </div>
             </header>
             <div class="entry-content clearfix">
                 <p>{{ article.abstract }}</p>
                 <div class="read-more cl-effect-14">
-                    <a href="#" class="more-link">继续阅读 <span class="meta-nav">→</span></a>
+                    <a href="{% url 'MyBlog:single' article.id %}" class="more-link">继续阅读 <span class="meta-nav">→</span></a>
                 </div>
             </div>
         </article>
@@ -42,24 +42,26 @@
             {% if pages.has_previous %}
                 <li>
                     <a href="?page={{ pages.previous_page_number }}" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
+                        <span aria-hidden="true"><<</span>
                     </a>
                 </li>
             {% endif %}
 
             {% for pg in pages.paginator.page_range %}
                 {% if pages.number == pg %}
-                    <li class="current"><a href="?page={{pg}}">{{ pg }}</a></li>
+                    {# <li class="current"><a href="?page={{pg}}">{{ pg }}</a></li> #}
+                    <li class="current"><span style="color: red">{{ pg }}</span></li>
                 {% else %}
                     <li><a href="?page={{ pg }}">{{ pg }}</a></li>
                 {% endif %}
             {% endfor %}
 
-            {% if page.has_next %}
+            {% if pages.has_next %}
                 <li>
                     <a href="?page={{ pages.next_page_number }}" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
+                        <span aria-hidden="true">>></span>
                     </a>
+                    <span>共 {{ pages.paginator.num_pages }} 页</span>
                 </li>
             {% endif %}
 
