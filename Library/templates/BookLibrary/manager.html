@@ -1,0 +1,7 @@
+{% extends 'BookLibrary/base.html' %}
+{% block title%} 功能导航 {% endblock %}
+{% block link%}
+	<a href="{% url 'booklibrary:index' %}"> 注销 [{{ user }}]</a> |
+	<a href="#"> 图书管理 </a> |
+	<a href="#"> 用户管理 </a>
+{%  endblock%}
