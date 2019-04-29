@@ -36,4 +36,14 @@ class Borrows(models.Model):
         return self.book, self.user
 
 
+class HotPic(models.Model):
+    name = models.CharField(max_length=20)
+    pic = models.ImageField(upload_to='hotpic')
+    index = models.SmallIntegerField(unique=True)
+
+    def __str__(self):
+        return self.name
+
+
+
 

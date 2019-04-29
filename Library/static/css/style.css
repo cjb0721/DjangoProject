@@ -176,4 +176,10 @@ div.error {
     padding: 4px;
     font-size: 13px;
 }
-.login_form {text-align:text}
+.login_form {text-align:center}
+
+div.carousel-inner>.item img{
+    width: 680px;
+    height: 500px;
+}
+

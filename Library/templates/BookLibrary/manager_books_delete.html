@@ -1,0 +1,22 @@
+{% extends "BookLibrary/base.html" %}
+{% block title %} 删除书目 {% endblock %}
+{% block link %}
+	<a href="{% url 'booklibrary:books' %}"> 返回 </a>
+{% endblock %}
+
+{% block body %}
+	<h2> 删除书目 </h2>
+	{% if error %}
+        <div class="error">
+            <strong>Errror : </strong> {{error}}
+        </div>
+	{% endif %}  
+	<form action="{% url 'booklibrary:books_delete' %}" method="post">
+        {% csrf_token %}
+        <dl>
+            <dt>请输入书目ISBN:</dt>
+            <dd><input type="text" name="id" size="30"> </dd>
+        </dl>
+        <div class="actions"><input type="submit" value="删除"></div>
+    </form>
+{% endblock %}

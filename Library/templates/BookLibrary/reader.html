@@ -1,1 +1,14 @@
 {% extends 'BookLibrary/base.html' %}
+
+{% block title %} 欢迎使用 {% endblock %}
+{% block link %}
+	<a href="{% url 'booklibrary:index' %}"> 注销[{{ reader.name }}] </a> |
+	<a href="{% url 'booklibrary:reader_query' reader.id %}"> 查询 </a> |
+	<a href="{% url 'booklibrary:reader_info' reader.id %}"> 查看个人信息 </a> |
+	<a href="{% url 'booklibrary:reader_historys' reader.id %}"> 查看阅读记录 </a>
+
+{% endblock %}
+
+{% block body %}
+	<h2> 欢迎使用 </h2>
+{% endblock %}

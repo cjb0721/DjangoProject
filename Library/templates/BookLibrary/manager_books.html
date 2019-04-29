@@ -1,0 +1,30 @@
+{% extends 'BookLibrary/base.html' %}
+{% block title%} 图书管理 {% endblock %}
+{% block link%} 
+	<a href="{% url 'booklibrary:manager' %}"> 返回 </a> |
+	<a href="{% url 'booklibrary:books_add' %}"> 添加 </a> |
+	<a href="{% url 'booklibrary:books_delete' %}"> 删除 </a>
+{%  endblock%}
+{% block body%}
+	<h2> 图书管理 </h2>
+	<table width="600" border="1", align="center">
+        <tr>
+            <th align="center"> ISBN </th>
+            <th align="center"> 书名 </th>
+            <th align="center"> 作者</th>
+            <th align="centet"> 出版商 </th>
+            <th align="center"> 出版时间 </th>
+            <th align="center"> 查看信息 </th>
+	    </tr>
+	    {% for book in books%}
+	    <tr>
+	        <th align="center"> {{book.id}}</th>
+            <th align="center"> {{book.name}} </th>
+            <th align="center"> {{book.author}}</th>
+            <th align="centet"> {{book.pub_com}} </th>
+            <th align="center"> {{book.pub_date|date:"Y-m-d"}}</th>
+            <th align="center"> <a href="{% url 'booklibrary:book_info' book.id %}"> 点击进入 </a> </th>
+	    </tr>
+	    {% endfor %}
+	</table>
+{% endblock%}

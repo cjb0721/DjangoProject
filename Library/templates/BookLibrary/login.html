@@ -4,12 +4,12 @@
 
 {% block link%}
 	<a href="{% url 'booklibrary:index' %}"> {{ use.link1 }}   </a>|
-	<a href="#"> {{ use.link2 }}  </a>
+	<a href="{% url 'booklibrary:regist' %}"> {{ use.link2 }}  </a>
 {%  endblock %}
 {% block body %}
 	<h2> {{ use.user }}登录 </h2>
 	<!--<form action="{{ use.load }}" method="post">-->
-	<form action="{% url 'booklibrary:login' 1 %}" method="post">
+	<form action="{% url 'booklibrary:login' use.id %}" method="post">
         {% csrf_token %}
         <dl>
             <dt>用户名: </dt>
