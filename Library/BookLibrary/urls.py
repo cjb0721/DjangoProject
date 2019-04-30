@@ -28,7 +28,12 @@ urlpatterns = [
 
 
 
-
+    # 上传图片
     url('reader_upload/$', views.reader_upload, name="reader_upload"),
+    # 富文本编辑
+    url('edit/$', views.edit, name="edit"),
+    # 发送邮件
+    url('mail/$', views.mail, name="mail"),
+    url('active/(.*?)/$', views.active, name="active"),
 ]
 

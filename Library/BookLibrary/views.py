@@ -2,14 +2,20 @@ from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse
 from .models import *
 from datetime import datetime, timedelta
+from django.core.mail import send_mail, send_mass_mail
+from django.conf import settings
+
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, SignatureExpired
+
 # Create your views here.
 
 
 def index(request):
     # return HttpResponse("你好，世界！")
+    messinfo = MessInfo.objects.all()
     hotpics = HotPic.objects.all().order_by('index')
     d = {'manager': 1, 'reader': 0}
-    return render(request, 'BookLibrary/index.html', {'t': d, 'hotpics': hotpics})
+    return render(request, 'BookLibrary/index.html', {'t': d, 'hotpics': hotpics, 'messinfo': messinfo})
 
 
 def login(request, num):
@@ -148,6 +154,14 @@ def regist(request):
             u.num = request.POST['number']
             u.email = request.POST['email']
             u.save()
+            id = Users.objects.get(num=u.num).id
+
+            # 序列化id
+            ser = Serializer(settings.SECRET_KEY, 100)
+            resultid = ser.dumps({'userid': id}).decode('utf-8')  # 序列化对象转字符串对网址加密
+            print(resultid)
+            send_mail("用户注册", "<a href='http://127.0.0.1:8000/booklibrary/active/%s'>点我验证</a>" % (resultid, ),
+                      settings.DEFAULT_FROM_EMAIL, [u.email, ])
             return redirect(reverse('booklibrary:login', args=[0]))
         else:
             return HttpResponse("两次输入密码不一致")
@@ -231,6 +245,49 @@ def reader_upload(request):
         pic = HotPic(index=index, pic=pic)
         pic.save()
         return redirect(reverse('booklibrary:index'))
+
+
+def edit(request):
+    if request.method == 'GET':
+        return render(request, 'BookLibrary/edit.html')
+    elif request.method == 'POST':
+        title = request.POST['title']
+        mess = request.POST['mess']
+        msg = MessInfo(title=title, message=mess)
+        msg.save()
+        return redirect(reverse('booklibrary:index'))
+
+
+def mail(request):
+    send = settings.DEFAULT_FROM_EMAIL
+    receive = ["1451055806@qq.com", "492595085@qq.com"]
+    if request.method == 'GET':
+        return render(request, 'BookLibrary/email.html', {'send': send, 'receive': receive})
+    elif request.method == 'POST':
+        title = request.POST['title']
+        mess = request.POST['mess']
+        try:
+            send_mail(title, mess, send, receive)
+            print("发送成功")
+        except:
+            return HttpResponse("发送失败")
+        return redirect(reverse('booklibrary:index'))
+
+
+def active(request, id):
+    # 创建序列化对象 100s后过期
+    dser = Serializer(settings.SECRET_KEY, 100)
+    try:
+        # 反序列化ID 将字符串转成对象
+        obj = dser.loads(id)
+        user = Users.objects.get(pk=obj['userid'])
+        user.is_active = True
+        user.save()
+        return redirect(reverse('booklibrary:login', args=[0]))
+    except SignatureExpired as e:
+        return HttpResponse("连接失败")
+
+
 
 
 

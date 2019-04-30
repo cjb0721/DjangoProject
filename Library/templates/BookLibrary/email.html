@@ -1,0 +1,18 @@
+{% extends 'BookLibrary/base.html' %}
+{% block title %}邮件发送{% endblock %}
+{% block body %}
+
+    <h2>编写邮件</h2>
+    <form action="{% url 'booklibrary:mail' %}" method="post">
+        {% csrf_token %}
+        主题: <input type="text" name="title"><br>
+        内容: <textarea name="mess" id="" cols="30" rows="10"></textarea><br>
+        发件人: <input type="text" name="email1" readonly value="{{send}}"><br>
+        收件人: <input type="text" name="email2" readonly value="{{receive}}"><br>
+        <input type="submit" value="发送">
+    </form>
+
+{% endblock %}
+
+
+

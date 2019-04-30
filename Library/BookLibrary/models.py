@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from tinymce.models import HTMLField
 # Create your models here.
 
 
@@ -10,6 +10,7 @@ class Users(models.Model):
     college = models.CharField(max_length=50)
     num = models.IntegerField()
     email = models.EmailField()
+    is_active = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -33,7 +34,7 @@ class Borrows(models.Model):
     status = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.book, self.user
+        return self.book.name+"被"+self.user.name+"借出"
 
 
 class HotPic(models.Model):
@@ -45,5 +46,12 @@ class HotPic(models.Model):
         return self.name
 
 
+class MessInfo(models.Model):
+    title = models.CharField(max_length=20)
+    # 富文本编辑器字段
+    message = HTMLField()
+
+    def __str__(self):
+        return self.title
 
 
