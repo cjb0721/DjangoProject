@@ -1,0 +1,43 @@
+{% extends 'BookLibrary/base.html' %}
+{% block title %}登录{% endblock %}
+{% block linkjs %}
+    <script>
+
+        $(function () {
+            $('#username').blur(function () {
+                // console.log("+++")
+                $.ajax({
+                    url: '/booklibrary/checkuser/',
+                    type: 'post',
+                    data: {
+                        "csrfmiddlewaretoken": $("input[name=csrfmiddlewaretoken]").val(),
+                        "username": $("#username").val()
+                    },
+                    success: function (data) {
+                        console.log("+++")
+                        $('#userinfo').text(data);
+                    }
+                })
+            })
+            $('#verifycode').click(function () {
+                t = new Date()
+                this.src = '/booklibrary/verifycode/?t='+t.getTime()
+            })
+        })
+
+    </script>
+{% endblock %}
+
+{% block body %}
+
+    <h2>登录</h2>
+    <form action="{% url 'booklibrary:ajaxlogin' %}" method="post">
+        {% csrf_token %}
+        用户: <input type="text" name="username" id="username"> <span id="userinfo"></span><br>
+        密码: <input type="password" name="password" id="password"><br>
+        验证码: <input type="text" name="verifycode"><img src="{% url 'booklibrary:verifycode' %}" alt="验证码加载失败" id="verifycode"><br>
+        <input type="submit" value="登录">
+
+    </form>
+
+{% endblock %}

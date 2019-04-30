@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajax</title>
+
+    <script src="/static/js/jquery-2.1.4.js"></script>
+    <!--Load方法可以将服务器资源加载到制定元素-->
+    <script>
+        $(function () {
+            $("#load").click(function () {
+                $(".info").load("/static/css/style.css");
+            })
+            
+            $("#ajax").click(function () {
+                $.ajax({
+                    url: '/booklibrary/ajaxs/',
+                    type: 'get',
+                    data: {'csrfmiddlewaretoken': $("input[name='csrfmiddlewaretoken']").val()},
+                    success: function (data) {
+                        console.log(data)
+                    }
+                })
+            })
+            
+        })
+    </script>
+
+</head>
+<body>
+    {% csrf_token %}
+    <button id="load">点我load方法</button>
+    <div class="info"></div>
+    <button id="ajax">点我ajax方法</button>
+    <div class="info2"></div>
+
+</body>
+</html>

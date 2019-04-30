@@ -35,5 +35,11 @@ urlpatterns = [
     # 发送邮件
     url('mail/$', views.mail, name="mail"),
     url('active/(.*?)/$', views.active, name="active"),
+    # Ajax异步刷新
+    url('ajax/$', views.ajax, name="ajax"),
+    url('ajaxs/$', views.ajaxs, name="ajaxs"),
+    url('^ajaxlogin/$', views.ajaxlogin, name="ajaxlogin"),
+    url('^checkuser/$', views.checkuser, name="checkuser"),
+    url('^verifycode/$', views.verifycode, name="verifycode"),
 ]
 
