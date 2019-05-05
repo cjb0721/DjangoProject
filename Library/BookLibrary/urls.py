@@ -41,5 +41,7 @@ urlpatterns = [
     url('^ajaxlogin/$', views.ajaxlogin, name="ajaxlogin"),
     url('^checkuser/$', views.checkuser, name="checkuser"),
     url('^verifycode/$', views.verifycode, name="verifycode"),
+
+    url('^echarts/$', views.echarts, name="echarts"),
 ]
 

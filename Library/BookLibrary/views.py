@@ -10,9 +10,11 @@ from PIL import Image,ImageDraw,ImageFont
 
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, SignatureExpired
 
+from django.views.decorators.cache import cache_page
+
 # Create your views here.
 
-
+@cache_page(60*15)
 def index(request):
     # return HttpResponse("你好，世界！")
     messinfo = MessInfo.objects.all()
@@ -369,4 +371,8 @@ def verifycode(request):
     im.save(f, 'png')
     # 将内存中的图片数据返回给客户端，MIME类型为图片png
     return HttpResponse(f.getvalue(), 'image/png')
+
+
+def echarts(request):
+    return render(request, 'BookLibrary/echarts.html')
 
