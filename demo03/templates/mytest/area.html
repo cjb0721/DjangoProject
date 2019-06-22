@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>区域</title>
+
+    {% load static from staticfiles %}
+    <script src="{% static 'js/jquery-2.1.4.js' %}" type="text/javascript" charset="utf-8"></script>
+    <script>
+        $(function () {
+
+            $('#area').change(function () {
+                console.log("++++++++++++++");
+                console.log($('#area').val())
+                console.log($('#area option:selected').text())
+
+                $.ajax({
+                    url: '/mytest/select/',
+                    type: 'post',
+                    dataType: 'json',
+                    data: {
+                        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+                        'id': $('#area').val(),
+                        'addr': $('#area option:selected').text()
+                    },
+                    success: function(data){
+                        console.log("++")
+                        console.log(data['childs'])
+                        console.log(data['childs'].length)
+                        $("#now").text(data['now'])
+                        $("#par").text(data['par'])
+                        $(".childs").empty()  <!-- 清空元素-->
+                        $.each(data['childs'], function(i, item){
+                            $(".childs").append('<li id=item'+i+'>'+ item +'</li>')
+                        })
+                    }
+                })
+            })
+        })
+    </script>
+
+</head>
+<body>
+    <h2>区域显示</h2>
+    当前 <span id="now">{{list0.title}}</span>  <br>
+    上级 <span id="par">{{list0.parrent_area}}</span> <br>
+    下属
+    <div class="childs"></div>
+
+    {% for a in list0.area_set.all %}
+        <li>{{a.title}}</li>
+    {% empty %}
+
+    {% endfor %}
+
+    <br>
+    <br>
+    <br>
+    {% csrf_token %}
+    <select name="area" id="area">
+        {% for a in list %}
+            <option value="{{a.id}}">{{ a.title }}</option>
+        {% empty %}
+            没有选项
+        {% endfor %}
+    </select>
+
+
+</body>
+</html>

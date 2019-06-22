@@ -10,6 +10,7 @@
     <div class="container">
         <h2>添加选项</h2>
         <form action="{% url 'polls:addchoicehander' %}" method="post">
+            {% csrf_token %}
             选项名称：<input type="text" name="item" required><br>
             投票数：<input type="number" name="vote" required><br>
             <input type="hidden" name="qid" value="{{qs.id}}">

@@ -14,6 +14,8 @@
         <!--{# <form action="/polls/detail/" method="post"> #}-->
         <form action="{% url 'polls:detail' %}" method="post">
             <ul>
+                {# 跨站请求伪造保护，一般用在表单post请求中 #}
+                {% csrf_token %}
                 {% for i in qs.select_set.all %}
                 <li>
                     <input type="radio" name="vote" value="{{i.id}}" required>{{i.item}}

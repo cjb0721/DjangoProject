@@ -1,9 +1,34 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, reverse, get_object_or_404, get_list_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Book,Hero
 from django.template import loader
+from datetime import timedelta
 
 # Create your views here.
+
+
+def login(request):
+    if request.method == 'GET':
+        return render(request, 'booktest/login.html')
+    elif request.method == 'POST':
+        username = request.POST['username']
+        # password = request.POST['password']
+        request.session['username'] = username
+        # request.session['password'] = password
+        request.session.set_expiry(3600)
+        # request.session.set_expiry(timedelta(days=5))  报错
+
+        return redirect(reverse('booktest:index'))
+
+
+def logout(request):
+    res = render(request, 'booktest/index.html')
+    # res.delete_cookie('username')
+
+    request.session.delete('username')
+    # request.session.delete('password')
+
+    return res
 
 
 def index(request):
@@ -16,7 +41,15 @@ def index(request):
     # result = indexpage.render(body)
     # # 3、返回模板
     # return HttpResponse(result)
-    return render(request, 'booktest/index.html', {"username": "ggb"})
+
+    # print(dir(request.COOKIES))
+    # print(request.COOKIES.get('username'))
+    # return render(request, 'booktest/index.html', {"username": request.COOKIES.get('username')})
+
+    # print(dir(request.session))
+    return render(request, 'booktest/index.html', {"username": request.session.get('username')})
+
+    # return render(request, 'booktest/index.html', {"username": "ggb"})
 
 
 def list(request):
@@ -27,14 +60,16 @@ def list(request):
 
 def detail(request, id):
     # return HttpResponse("详情页"+str(id))
-    book = Book.objects.get(pk=id)
-    return render(request, 'booktest/detail.html', {'book': book})
 
-    # try:
-    #     book = Book.objects.get(pk=int(id))
-    #     return HttpResponse(book)
-    # except:
-    #     return HttpResponse("请输入正确ID")
+    # book = Book.objects.get(pk=id)
+    # return render(request, 'booktest/detail.html', {'book': book})
+
+    try:
+        book = Book.objects.get(pk=int(id))
+    except:
+        # book = get_object_or_404(Book, pk=id)
+        book = get_list_or_404(Book, pk=id)
+    return render(request, 'booktest/detail.html', {'book': book})
 
 
 def addbook(request):
@@ -50,7 +85,8 @@ def addbookhander(request):
     b = Book()
     b.book_title = bname
     b.save()
-    return HttpResponseRedirect('/booktest/list/', {'booklist': b})
+    # return HttpResponseRedirect('/booktest/list/', {'booklist': b})
+    return HttpResponseRedirect(reverse('booktest:list'), {'booklist': b})
 
 
 def delete(request, id):
@@ -60,7 +96,8 @@ def delete(request, id):
         # 使用render没有刷新请求URL
         # return render(request, 'booktest/list.html', {'booklist': book})
         # 使用HttpResponseRedirect重定向
-        return HttpResponseRedirect('/booktest/list/', {'booklist': book})
+        # return HttpResponseRedirect('/booktest/list/', {'booklist': book})
+        return HttpResponseRedirect(reverse('booktest:list'), {'booklist': book})
     except:
         return HttpResponse("删除失败")
 
@@ -78,7 +115,8 @@ def modifybookhander(request, id):
     b = Book.objects.get(pk=id)
     b.book_title = bname
     b.save()
-    return HttpResponseRedirect('/booktest/list/', {'booklist': b})
+    # return HttpResponseRedirect('/booktest/list/', {'booklist': b})
+    return HttpResponseRedirect(reverse('booktest:list'), {'booklist': b})
 
 
 def addhero(request, id):
@@ -95,6 +133,7 @@ def deletehero(request, hid):
         book = result.book
         result.delete()
         return HttpResponseRedirect('/booktest/detail/'+str(book.id)+'/', {'book': book})
+        # return HttpResponseRedirect(reverse('booktest:detail')+str(book.id)+'/', {'book': book})
     except:
         return HttpResponse("添加失败")
 
@@ -121,7 +160,10 @@ def modifyherohander(request, id):
     h.content = hcontent
     h.book = b
     h.save()
+    # print(str(bid))
+    # print(reverse('booktest:detail')+str(bid)+'/')
     return HttpResponseRedirect('/booktest/detail/'+str(bid)+'/', {'book': b})
+    # return HttpResponseRedirect(reverse('booktest:detail', str(bid)), {'book': b})
 
 
 def addherohander(request):
@@ -142,7 +184,9 @@ def addherohander(request):
     h1.content = hskill
     h1.book = book
     h1.save()
+
     return HttpResponseRedirect('/booktest/detail/'+str(bid)+'/', {"book": book})
+    # return HttpResponseRedirect(reverse('booktest:detail')+str(bid)+'/', {"book": book})
 
     # return HttpResponse("提交成功")
 
